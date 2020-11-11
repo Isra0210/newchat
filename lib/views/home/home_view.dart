@@ -1,5 +1,7 @@
+import 'package:chat/widget/message.dart';
+import 'package:chat/widget/newMessage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -9,33 +11,53 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp().whenComplete(() {
-      print("completed");
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Temporário'),
+        title: Text('Chat'),
         centerTitle: true,
-        backgroundColor: Colors.black,
+        actions: <Widget>[
+          DropdownButtonHideUnderline(
+            child: DropdownButton(
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).primaryIconTheme.color,
+                ),
+              ),
+              items: [
+                DropdownMenuItem(
+                  value: 'logout',
+                  child: Container(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.exit_to_app, color: Colors.black),
+                        SizedBox(width: 8),
+                        Text('Sair'),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+              onChanged: (item) {
+                if (item == 'logout') {
+                  FirebaseAuth.instance.signOut();
+                }
+              },
+            ),
+          ),
+        ],
       ),
-      body: Text('Home view'),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          FirebaseFirestore.instance
-              .collection('chat')
-              .snapshots()
-              .listen((event) {
-            print(event);
-          });
-        },
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Expanded(child: Messages()),
+              NewMessage(),
+            ],
+          ),
+        ),
       ),
     );
   }
