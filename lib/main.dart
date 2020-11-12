@@ -16,12 +16,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-        backgroundColor: Colors.pink,
-        accentColor: Colors.deepPurple,
+        primarySwatch: Colors.teal,
+        backgroundColor: Colors.black,
+        accentColor: Colors.black,
         accentColorBrightness: Brightness.dark,
         buttonTheme: ButtonTheme.of(context).copyWith(
-          buttonColor: Colors.pink,
+          buttonColor: Colors.teal[600],
           textTheme: ButtonTextTheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

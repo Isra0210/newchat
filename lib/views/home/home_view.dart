@@ -1,6 +1,6 @@
+import 'package:chat/views/gif/gif_view.dart';
 import 'package:chat/widget/message.dart';
 import 'package:chat/widget/newMessage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +14,10 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat'),
-        centerTitle: true,
+        title: Text(
+          'Chat',
+          style: TextStyle(fontSize: 25.0),
+        ),
         actions: <Widget>[
           DropdownButtonHideUnderline(
             child: DropdownButton(
@@ -38,11 +40,30 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
+                ),
+                DropdownMenuItem(
+                  value: 'gif',
+                  child: Container(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.image, color: Colors.black),
+                        SizedBox(width: 8),
+                        Text('Gif'),
+                      ],
+                    ),
+                  ),
                 )
               ],
-              onChanged: (item) {
-                if (item == 'logout') {
+              onChanged: (String value) {
+                if (value == 'logout') {
                   FirebaseAuth.instance.signOut();
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GifView(),
+                    ),
+                  );
                 }
               },
             ),
